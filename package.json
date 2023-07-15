@@ -1,0 +1,17 @@
+{
+  "name": "joans-coffe-shop",
+  "version": "1.0.0",
+  "description": "Taleas Assignment 01",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "author": "Joan Shameti",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^5.7.0",
+    "mongoose": "^7.3.2",
+    "nodemon": "^2.0.6"
+  }
+}
