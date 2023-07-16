@@ -33,8 +33,16 @@ module.exports.createOrder = async(req,res,next) => {
 
 module.exports.getAllOrders = async(req,res,next) => {
     try {
-        const {id} = req.params;
-        const orders = await Orders.findById(id);
+        const orders = await Orders.find({});
+        res.status(200).json(orders)
+    } catch (error) {
+        res.status(500).json({message:error.message})
+    }
+}
+
+module.exports.getOrderById = async(req,res,next) => {
+    try {
+        const {id} = await Orders.findById({id});
         res.status(200).json(orders)
     } catch (error) {
         res.status(500).json({message:error.message})
