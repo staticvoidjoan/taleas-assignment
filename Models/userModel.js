@@ -26,6 +26,11 @@ const userSchema = mongoose.Schema(
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Coupon',
         required: true
+    }],
+    orders: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Orders",
+        required:true
     }]
 
 }

@@ -15,13 +15,10 @@ const productSchema = mongoose.Schema(
             required: true,
             default: 0
         },
-        RoastLevel: {
+        type: {
             type: String,
-            required: true
-        },
-        FlavourNotes: {
-            type: String,
-            required: true
+            required: true,
+            enum: ["drink","food","pastry"]
         }
 
     }

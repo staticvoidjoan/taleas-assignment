@@ -15,10 +15,11 @@ const couponSchema = mongoose.Schema({
         type: Number,
         required: true
     },
-    isValid:{
-        type: Boolean,
+    applicableProducts:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
         required:true
-    }
+    }]
 })
 
 const Coupon = mongoose.model("Coupon",couponSchema);

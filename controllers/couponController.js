@@ -2,6 +2,7 @@ const Coupon = require("../Models/couponModel");
 
 module.exports.createCoupon = async(req,res,next) => {
     try{
+        
         const coupon = await Coupon.create(req.body)
         res.status(200).json(coupon);
     } catch (error){
@@ -13,8 +14,7 @@ module.exports.createCoupon = async(req,res,next) => {
 module.exports.getAllCoupons = async(req,res,next) => {
     try{
         const coupons = await Coupon.find({})
-        console.log(coupons)
-        // res.status(200).json(//coupons)
+        res.status(200).json(coupons)
     } catch(error){
         res.status(400).json({message:error.message})
     }
