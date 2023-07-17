@@ -36,7 +36,7 @@ module.exports.getOneProduct = async (req,res,next) => {
 module.exports.updateProduct = async (req,res,next) => {
   try{
     const {id} = req.params;
-    const product = await Product.findByIdAndUpdate(id)
+    const product = await Product.findByIdAndUpdate(id,req.body)
     if (!product){
       return res.status(404).json({message:error})
     }

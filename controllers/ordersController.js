@@ -22,8 +22,8 @@ module.exports.getAllOrders = async(req,res,next) => {
 
 module.exports.getOrderById = async(req,res,next) => {
     try {
-        const {id} = req.params.id;
-        const orders =  await Orders.findById({id});
+        const {id} = req.params;
+        const orders =  await Orders.findById(id);
         res.status(200).json(orders)
     } catch (error) {
         res.status(500).json({message:error.message})
@@ -33,7 +33,7 @@ module.exports.getOrderById = async(req,res,next) => {
 module.exports.updateOrder = async (req,res,next) =>{
     try {
         const {id} = req.params.id;
-        const orders = await Orders.findByIdAndUpdate({id});
+        const orders = await Orders.findByIdAndUpdate(id);
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({message:error.message});
@@ -43,7 +43,7 @@ module.exports.updateOrder = async (req,res,next) =>{
 module.exports.deleteOrder = async(req,res,next) => {
     try {
         const {id} = req.params;
-        const orders = await Orders.findByIdAndDelete({id});
+        const orders = await Orders.findByIdAndDelete(id);
         res.status(200).json(orders);
     } catch (error) {
         res.status(500).json({message: error.message})
