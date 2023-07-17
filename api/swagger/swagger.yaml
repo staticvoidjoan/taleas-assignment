@@ -1,0 +1,42 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title : CoffeShop API
+host: localhost:5000/coffeshop
+basePath: /
+schemes:
+  -http
+consumes:
+  -application/json
+produces:
+  -application/json
+paths:
+  /coffeshop/users:
+    get:
+      description: Get all registered users
+      summary: Get users
+      operationId: GetOperation
+      parameters:
+      -name: firstName
+      in: query
+      description: First name of the user
+      type: string
+      -name: lastName
+      in: query
+      description: Last name of the user
+      type: string
+      -name: email
+      in: query
+      description: The email of the user  
+      type: string
+      -name: coupons
+      in: query
+      description: The coupons that the user has avaliable to use
+      type: string
+      -name: orders
+      in: query
+      description: The orders the user has made
+    responses:
+      "200":
+        description: Success
+          
