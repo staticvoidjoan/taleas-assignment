@@ -10,26 +10,6 @@ module.exports.createOrder = async(req,res,next) => {
         res.status(400).json({message:error.message})
     }
 }
-// module.exports.createOrder = async(req,res,next) => {
-//     try {
-//         const {productOrders} = req.body;
-//         const productPromises = productOrders.map((productId) =>{
-//             Product.findById(productId)
-//         });
-//         const products = await Promise.all(productPromises);
-//         const orderTotal = products.reduce((total,product) => {
-//             return total + product.price;
-//         }, 0);
-//         const order = await Orders.create({
-//             OrderDate : req.body.OrderDate,
-//             productOrders,
-//             orderTotal,
-//             couponsUsed: req.body.couponsUsed
-//         })
-//     } catch (error) {
-//         res.status(500).json({message:error.message})
-//     }
-// }
 
 module.exports.getAllOrders = async(req,res,next) => {
     try {
@@ -42,9 +22,30 @@ module.exports.getAllOrders = async(req,res,next) => {
 
 module.exports.getOrderById = async(req,res,next) => {
     try {
-        const {id} = await Orders.findById({id});
+        const {id} = req.params.id;
+        const orders =  await Orders.findById({id});
         res.status(200).json(orders)
     } catch (error) {
         res.status(500).json({message:error.message})
+    }
+}
+
+module.exports.updateOrder = async (req,res,next) =>{
+    try {
+        const {id} = req.params.id;
+        const orders = await Orders.findByIdAndUpdate({id});
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+}
+
+module.exports.deleteOrder = async(req,res,next) => {
+    try {
+        const {id} = req.params;
+        const orders = await Orders.findByIdAndDelete({id});
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({message: error.message})
     }
 }

@@ -11,6 +11,7 @@ app.use(express.json()) //Enables us to parse JSON data
 // require("./routes/ordersRoutes")(app);
 
 const routeFiles = [
+  "./routes/userRoutes",
   "./routes/productRoutes",
   "./routes/userRoutes",
   "./routes/couponRoutes",
@@ -20,6 +21,8 @@ const routeFiles = [
 routeFiles.forEach(routeFile => {
   require(routeFile)(app);
 })
+
+
 
 //Connect to MongoDB
 mongoose.connect(uri).then(() => {
