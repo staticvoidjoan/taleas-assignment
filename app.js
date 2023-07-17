@@ -6,7 +6,7 @@ app.use(express.urlencoded({ extended: false })) //Enables us to parse URL-ecndo
 app.use(express.json()) //Enables us to parse JSON data
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:34453');
+  res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:40627');
   res.header('Access-Control-Allow-Methods', 'GET'); // Add any additional HTTP methods you need to support
   res.header('Access-Control-Allow-Headers', 'Content-Type'); // Add any additional headers your client sends
 
@@ -17,10 +17,6 @@ app.use((req, res, next) => {
     next();
   }
 });
-// require("./routes/productRoutes")(app);
-// require("./routes/userRoutes")(app);
-// require("./routes/couponRoutes")(app);
-// require("./routes/ordersRoutes")(app);
 
 const routeFiles = [
   "./routes/userRoutes",
