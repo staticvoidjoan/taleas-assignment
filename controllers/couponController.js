@@ -26,7 +26,7 @@ module.exports.getCouponById = async(req,res,next) => {
         const coupons = await Coupon.findById(id);
         res.status(200).json(coupons);
     } catch(error){
-        res.status(500).json({message:error.message})
+        res.status(500).json({message:error.message});
     }
 }
 

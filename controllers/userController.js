@@ -18,14 +18,6 @@ module.exports.createUser = async (req, res, next) => {
         });
     }
     const user = await User.create(req.body);
-    //     const user = await User.create({
-    //     firstName: req.body.firstName,
-    //     lastName: req.body.lastName,
-    //     email: req.body.email,
-    //     isVerified: req.body.isVerified,
-    //     favouriteDrink: req.body.favouriteDrink,
-    //     coupons: req.body.coupons
-    // });
     res.status(201).json(user);
   } catch (error) {
     console.log(error.message);
