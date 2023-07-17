@@ -13,10 +13,6 @@ const userSchema = mongoose.Schema(
         type: String,
         required: true
     },
-    isVerified:{
-        type: Boolean,
-        required: true
-    },
     favouriteDrink: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
