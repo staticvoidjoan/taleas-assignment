@@ -1,9 +1,9 @@
 const productController = require("../controllers/productController")
 
 module.exports = (app) =>{
-    app.post("/coffeshop/drinks",productController.createProduct);
-    app.get("/coffeshop/drinks",productController.getAllProducts);
-    app.get("/coffeshop/drinks/:id",productController.getOneProduct);
-    app.delete("/coffeshop/drinks/:id",productController.deleteOneProduct)
+    app.post("/coffeshop/products",productController.createProduct);
+    app.get("/coffeshop/products",productController.getAllProducts);
+    app.get("/coffeshop/products/:id",productController.getOneProduct);
+    app.delete("/coffeshop/products/:id",productController.deleteOneProduct)
 
 }
