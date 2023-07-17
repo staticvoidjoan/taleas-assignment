@@ -21,7 +21,6 @@ app.use((req, res, next) => {
 const routeFiles = [
   "./routes/userRoutes",
   "./routes/productRoutes",
-  "./routes/userRoutes",
   "./routes/couponRoutes",
   "./routes/ordersRoutes"
 ]
