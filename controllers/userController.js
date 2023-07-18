@@ -48,7 +48,7 @@ module.exports.getOneUser = async (req, res, next) => {
   }
 };
 
-module.exports.UpdateUser = async (req, res, next) => {
+module.exports.updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const users = await User.findByIdAndUpdate(id, req.body);

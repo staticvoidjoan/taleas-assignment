@@ -58,6 +58,13 @@ module.exports.deleteOneProduct = async (req, res, next) => {
 module.exports.softDeleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+      return res.status(404).json("No product found with that ID");
+    }
+
+    product.isDeleted = true;
+    await product.save();
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
