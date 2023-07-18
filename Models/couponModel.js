@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const couponSchema = mongoose.Schema({
   couponName: {
     type: String,
+    min: [3, "The name bust be at least 3 chars long"],
+    max: [20],
+    required: true
   },
   issueDate: {
     type: Date,
