@@ -4,8 +4,26 @@ const mongoose = require("mongoose");
 
 module.exports.createUser = async (req, res) => {
   try {
-    const { firstName, lastName, email } = req.body;
-    const existingUser = await User.findOne({ firstName, lastName, email });
+    const { firstName, lastName, email, userName } = req.body;
+    const nameRegex = /^[A-Za-z]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nameRegex.test(firstName)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid: Name should only contain letters" });
+    }
+    if (!nameRegex.test(lastName)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid: Last name should only contain letters" });
+    }
+
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({ message: "Invalid email address" });
+    }
+
+    const existingUser = await User.findOne({ userName, email });
     if (existingUser) {
       return res.status(409).json({ message: "User already registered" });
     }
@@ -54,12 +72,34 @@ module.exports.getOneUser = async (req, res) => {
 module.exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { firstName, lastName, email } = req.body;
-    const existingUser = await User.findOne({ firstName, lastName, email });
+    const { firstName, lastName, email, userName } = req.body;
+    const nameRegex = /^[A-Za-z]+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!nameRegex.test(firstName)) {
+      res
+        .status(400)
+        .json({ message: "Invalid first name" });
+    }
+    if (!nameRegex.test(lastName)) {
+      res
+        .status(400)
+        .json({ message: "Invalid last name" });
+    }
+    if (!nameRegex.test(userName)) {
+      res
+        .status(400)
+        .json({ message: "Invalid userName" });
+    }
+    if (!emailRegex.test(email)) {
+      res
+        .status(400)
+        .json({message: "Invalid email"});
+    }
+
+    const existingUser = await User.findOne({ userName, email });
     const users = await User.findById(id, req.body);
     if (
-      existingUser.firstName == users.firstName &&
-      existingUser.lastName == users.lastName &&
+      existingUser.userName == users.userName &&
       existingUser.email == users.email
     ) {
       res

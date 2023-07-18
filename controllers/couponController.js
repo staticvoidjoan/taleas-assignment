@@ -1,8 +1,14 @@
 const Coupon = require("../Models/couponModel");
 
-module.exports.createCoupon = async (req, res, next) => {
+module.exports.createCoupon = async (req, res) => {
   try {
     const { name } = req.params;
+    const nameRegex = /^[A-Za-z]+$/;
+    if (!nameRegex.test(name)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid: Name should only contain letters" });
+    }
     const existingCoupon = Coupon.findOne(name);
     if (existingCoupon) {
       return res
@@ -16,7 +22,7 @@ module.exports.createCoupon = async (req, res, next) => {
   }
 };
 
-module.exports.getAllCoupons = async (req, res, next) => {
+module.exports.getAllCoupons = async (req, res) => {
   try {
     const coupons = await Coupon.find({});
     res.status(200).json(coupons);
@@ -25,7 +31,7 @@ module.exports.getAllCoupons = async (req, res, next) => {
   }
 };
 
-module.exports.getCouponById = async (req, res, next) => {
+module.exports.getCouponById = async (req, res) => {
   try {
     const { id } = req.params;
     const coupons = await Coupon.findById(id);
@@ -40,7 +46,14 @@ module.exports.getCouponById = async (req, res, next) => {
 
 module.exports.updateCoupon = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id, name } = req.params;
+    const nameRegex = /^[A-Za-z]+$/;
+    if (!nameRegex.test(name)) {
+      return res
+        .status(400)
+        .json({ message: "Invalid: Name should only contain letters" });
+    }
+
     const coupon = await Coupon.findById(id);
     if (!coupon) {
       return res.status(404).json("Error: a coupon with that id was not found");
@@ -60,7 +73,7 @@ module.exports.updateCoupon = async (req, res) => {
   }
 };
 
-module.exports.deleteCoupon = async (req, res, next) => {
+module.exports.deleteCoupon = async (req, res) => {
   try {
     const { id } = req.params;
     const coupons = await Coupon.findByIdAndDelete(id);
