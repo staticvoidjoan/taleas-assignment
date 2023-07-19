@@ -59,7 +59,7 @@ module.exports.getOneUser = async (req, res) => {
     const users = await User.findById(id)
       .populate("favouriteDrink")
       .populate("coupons")
-      .populate("productOrders");
+      .populate("orders");
     if (!users) {
       res.status(404).json("Error no user with that id was found");
     }
@@ -69,48 +69,55 @@ module.exports.getOneUser = async (req, res) => {
   }
 };
 
+//HTTP PUT REQUEST to update the user
 module.exports.updateUser = async (req, res) => {
   try {
     const { id } = req.params;
     const { firstName, lastName, email, userName } = req.body;
+
+    //Name and email standart formats
     const nameRegex = /^[A-Za-z]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    //Testing if the names and email are being used in the correct format
     if (!nameRegex.test(firstName)) {
-      res
-        .status(400)
-        .json({ message: "Invalid first name" });
+      res.status(400).json({ message: "Invalid first name" });
     }
     if (!nameRegex.test(lastName)) {
-      res
-        .status(400)
-        .json({ message: "Invalid last name" });
+      res.status(400).json({ message: "Invalid last name" });
     }
     if (!nameRegex.test(userName)) {
-      res
-        .status(400)
-        .json({ message: "Invalid userName" });
+      res.status(400).json({ message: "Invalid userName" });
     }
     if (!emailRegex.test(email)) {
-      res
-        .status(400)
-        .json({message: "Invalid email"});
+      res.status(400).json({ message: "Invalid email" });
     }
 
-    const existingUser = await User.findOne({ userName, email });
-    const users = await User.findById(id, req.body);
-    if (
-      existingUser.userName == users.userName &&
-      existingUser.email == users.email
-    ) {
-      res
-        .status(400)
-        .json(
-          "Error: the info you provided is already registered to another user"
-        );
+    //Get the user we have selected
+    const selectedUser = await User.findById(id);
+
+    //Getting a user with the saem email and username only if there is one otherwise it will be null
+    const existingUser = await User.findOne({
+      _id: { $ne: id },
+      $or: [{ userName }, { email }],
+    });
+    if(existingUser != selectedUser){
+    // Check if the username is already taken by another user (excluding the selected user)
+    if (existingUser && existingUser.userName) {
+      return res.status(400).json({ message: "Username already exists" });
     }
-    if (!users) {
+
+    // Check if the email is already taken by another user (excluding the selected user)
+    if (existingUser && existingUser.email === email) {
+      return res.status(400).json({ message: "Email already exists" });
+    }
+  }
+
+    //If the id is incorrenct
+    if (!selectedUser) {
       return res.status(404).json("Error no user with that id was found");
     }
+    const users = await User.findByIdAndUpdate(id, req.body);
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
