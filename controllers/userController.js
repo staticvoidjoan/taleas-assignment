@@ -7,6 +7,7 @@ module.exports.createUser = async (req, res) => {
     const { firstName, lastName, email, userName } = req.body;
     const nameRegex = /^[A-Za-z]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const userNameRegex = /^[a-zA-Z0-9_-]+$/;
 
     if (!nameRegex.test(firstName)) {
       return res
@@ -17,6 +18,12 @@ module.exports.createUser = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Invalid: Last name should only contain letters" });
+    }
+
+    if(!userNameRegex.test(userName)){
+      return res
+        .status(400)
+        .json({message:"Invalid usersanme can only contain letters and numbers"})
     }
 
     if (!emailRegex.test(email)) {
@@ -78,6 +85,8 @@ module.exports.updateUser = async (req, res) => {
     //Name and email standart formats
     const nameRegex = /^[A-Za-z]+$/;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const userNameRegex = /^[a-zA-Z0-9_-]+$/;
+
 
     //Testing if the names and email are being used in the correct format
     if (!nameRegex.test(firstName)) {
@@ -86,7 +95,7 @@ module.exports.updateUser = async (req, res) => {
     if (!nameRegex.test(lastName)) {
       res.status(400).json({ message: "Invalid last name" });
     }
-    if (!nameRegex.test(userName)) {
+    if (!userNameRegex.test(userName)) {
       res.status(400).json({ message: "Invalid userName" });
     }
     if (!emailRegex.test(email)) {
@@ -96,7 +105,7 @@ module.exports.updateUser = async (req, res) => {
     //Get the user we have selected
     const selectedUser = await User.findById(id);
 
-    //Getting a user with the saem email and username only if there is one otherwise it will be null
+    //Getting a user with the same email and username only if there is one otherwise it will be null
     const existingUser = await User.findOne({
       _id: { $ne: id },
       $or: [{ userName }, { email }],
